@@ -15,6 +15,12 @@ class CreateScrapeResultsTable extends Migration
     {
         Schema::create('scrape_results', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('target_id')->constrained()->onDelete('cascade');
+            $table->string('link');
+            $table->string('headline');
+            $table->string('coverUrl');
+            $table->string('content');
+            $table->string('tags');
             $table->timestamps();
         });
     }

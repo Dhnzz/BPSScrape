@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ScraperController;
+use App\Http\Controllers\{TargetController};
 
 /*
 |--------------------------------------------------------------------------
@@ -17,4 +17,6 @@ use App\Http\Controllers\ScraperController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/scrape', [ScraperController::class, 'index'])->name('scrape');
+Route::prefix('targets')->group(function(){
+    Route::get('/', [TargetController::class, 'index'])->name('target.index');
+});

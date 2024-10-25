@@ -15,6 +15,12 @@ class CreateDetailTargetsTable extends Migration
     {
         Schema::create('detail_targets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('target_id')->constrained()->onDelete('cascade');
+            $table->string('link');
+            $table->string('headline');
+            $table->string('coverUrl');
+            $table->string('content');
+            $table->string('tags');
             $table->timestamps();
         });
     }
