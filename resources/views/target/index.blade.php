@@ -11,7 +11,7 @@
             <div class="d-flex justify-content-between">
                 <h4 class="card-title">Data Target</h4>
                 <div>
-                    <a href="{{ route('target.tambah') }}" class="btn btn-sm btn-success">Tambah Target</a>
+                    <a href="{{ route('target.create') }}" class="btn btn-sm btn-success">Tambah Target</a>
                 </div>
             </div>
             <table class="table table-sm table-bordered" id="dataTable">

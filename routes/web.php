@@ -23,14 +23,7 @@ Route::prefix('dashboard')->group(function () {
     Route::prefix('target')->group(function () {
         Route::get('/', [TargetController::class, 'index'])->name('target.index');
         Route::get('/{id}', [TargetController::class, 'show'])->name('target.show');
-        Route::get('/create', function () {
-            $data = ['message' => 'Hello, this is a dd() test!'];
-            dd($data);
-        })->name('target.create');
-        Route::get('/tambah', function () {
-            $data = ['message' => 'Hello, this is a dd() test!'];
-            dd($data);
-        })->name('target.tambah');
+        Route::get('/create', [TargetController::class, 'create'])->name('target.create');
         Route::post('/store', [TargetController::class, 'store'])->name('target.store');
         Route::get('/edit/{id}', [TargetController::class, 'edit'])->name('target.edit');
         Route::put('/update/{id}', [TargetController::class, 'update'])->name('target.update');
