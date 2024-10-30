@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetailTargetsTable extends Migration
+class CreateSelectorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateDetailTargetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_targets', function (Blueprint $table) {
+        Schema::create('selectors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('target_id')->constrained()->onDelete('cascade');
-            $table->string('link');
             $table->string('headline');
-            $table->string('coverUrl');
+            $table->date('date');
+            $table->string('link');
             $table->string('content');
+            $table->string('cover');
             $table->string('tags');
             $table->timestamps();
         });
@@ -32,6 +33,6 @@ class CreateDetailTargetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_targets');
+        Schema::dropIfExists('selectors');
     }
 }

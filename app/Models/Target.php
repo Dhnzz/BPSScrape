@@ -14,13 +14,13 @@ class Target extends Model
         'keyword'
     ];
 
-    public function detail_target(): HasOne
+    public function selector(): HasOne
     {
-        return $this->hasOne(DetailTarget::class);
+        return $this->hasOne(Selector::class);
     }
 
-    public function scrape_result(): HasMany
+    public function result(): HasMany
     {
-        return $this->hasMany(ScrapeResult::class);
+        return $this->hasMany(Result::class);
     }
 }

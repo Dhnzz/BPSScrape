@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ScrapeResult;
+use App\Models\Result;
 use Illuminate\Http\Request;
 
-class ScrapeResultController extends Controller
+class ResultController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class ScrapeResultController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ScrapeResult  $scrapeResult
+     * @param  \App\Models\Result  $result
      * @return \Illuminate\Http\Response
      */
-    public function show(ScrapeResult $scrapeResult)
+    public function show(Result $result)
     {
         //
     }
@@ -52,10 +52,10 @@ class ScrapeResultController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ScrapeResult  $scrapeResult
+     * @param  \App\Models\Result  $result
      * @return \Illuminate\Http\Response
      */
-    public function edit(ScrapeResult $scrapeResult)
+    public function edit(Result $result)
     {
         //
     }
@@ -64,10 +64,10 @@ class ScrapeResultController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ScrapeResult  $scrapeResult
+     * @param  \App\Models\Result  $result
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ScrapeResult $scrapeResult)
+    public function update(Request $request, Result $result)
     {
         //
     }
@@ -75,10 +75,10 @@ class ScrapeResultController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ScrapeResult  $scrapeResult
+     * @param  \App\Models\Result  $result
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ScrapeResult $scrapeResult)
+    public function destroy(Result $result)
     {
         //
     }

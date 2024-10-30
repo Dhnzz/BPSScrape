@@ -14,7 +14,9 @@ class TargetController extends Controller
      */
     public function index()
     {
-        return view('target.index');
+        $title = 'Target';
+        $target = Target::all();
+        return view('target.index', compact('title','target'));
     }
 
     /**
@@ -24,7 +26,10 @@ class TargetController extends Controller
      */
     public function create()
     {
-        //
+        dd('Test');
+        $title = 'Target';
+        $subtitle = 'Tambah Target';
+        return view('target.create', compact('title','subtitle'));
     }
 
     /**

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateScrapeResultsTable extends Migration
+class CreateResultsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateScrapeResultsTable extends Migration
      */
     public function up()
     {
-        Schema::create('scrape_results', function (Blueprint $table) {
+        Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->foreignId('target_id')->constrained()->onDelete('cascade');
-            $table->string('link');
+            $table->string('keyword');
             $table->string('headline');
-            $table->string('coverUrl');
+            $table->date('date');
+            $table->string('link');
             $table->string('content');
-            $table->string('tags');
+            $table->string('cover');
+            $table->json('tags');
             $table->timestamps();
         });
     }
@@ -32,6 +34,6 @@ class CreateScrapeResultsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scrape_results');
+        Schema::dropIfExists('results');
     }
 }

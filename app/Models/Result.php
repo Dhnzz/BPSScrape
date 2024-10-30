@@ -6,15 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo};
 
-class DetailTarget extends Model
+class Result extends Model
 {
     use HasFactory;
     protected $fillable = [
         'target_id',
+        'keyword',
+        'headlines',
+        'date',
         'link',
-        'headline',
-        'coverUrl',
         'content',
+        'cover',
         'tags',
     ];
 

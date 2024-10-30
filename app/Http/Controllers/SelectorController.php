@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DetailTarget;
+use App\Models\Selector;
 use Illuminate\Http\Request;
 
-class DetailTargetController extends Controller
+class SelectorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class DetailTargetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\DetailTarget  $detailTarget
+     * @param  \App\Models\Selector  $selector
      * @return \Illuminate\Http\Response
      */
-    public function show(DetailTarget $detailTarget)
+    public function show(Selector $selector)
     {
         //
     }
@@ -52,10 +52,10 @@ class DetailTargetController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\DetailTarget  $detailTarget
+     * @param  \App\Models\Selector  $selector
      * @return \Illuminate\Http\Response
      */
-    public function edit(DetailTarget $detailTarget)
+    public function edit(Selector $selector)
     {
         //
     }
@@ -64,10 +64,10 @@ class DetailTargetController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\DetailTarget  $detailTarget
+     * @param  \App\Models\Selector  $selector
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DetailTarget $detailTarget)
+    public function update(Request $request, Selector $selector)
     {
         //
     }
@@ -75,10 +75,10 @@ class DetailTargetController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\DetailTarget  $detailTarget
+     * @param  \App\Models\Selector  $selector
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DetailTarget $detailTarget)
+    public function destroy(Selector $selector)
     {
         //
     }
