@@ -42,11 +42,11 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Dashboard > {{ $title ?? '' }}
+                    <h4 class="h4 fw-bold mb-4 text-gray-800">Dashboard {{ ($title ?? '') ? '> '.$title : '' }}
                         @if (isset($subtitle))
                             > {{ $subtitle }}
                         @endif
-                    </h1>
+                    </h4>
                     @yield('content')
 
                 </div>
@@ -105,6 +105,8 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+
+    <script src="https://kit.fontawesome.com/d989f340c1.js" crossorigin="anonymous"></script>
     @stack('script')
 
 </body>

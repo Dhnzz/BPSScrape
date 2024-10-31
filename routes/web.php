@@ -14,19 +14,23 @@ use App\Http\Controllers\{TargetController, DashboardController};
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::prefix('target')->group(function () {
-        Route::get('/', [TargetController::class, 'index'])->name('target.index');
-        Route::get('/{id}', [TargetController::class, 'show'])->name('target.show');
-        Route::get('/create', [TargetController::class, 'create'])->name('target.create');
-        Route::post('/store', [TargetController::class, 'store'])->name('target.store');
-        Route::get('/edit/{id}', [TargetController::class, 'edit'])->name('target.edit');
-        Route::put('/update/{id}', [TargetController::class, 'update'])->name('target.update');
-        Route::delete('/destroy/{id}', [TargetController::class, 'destroy'])->name('target.destroy');
-    });
+    Route::resource('target', TargetController::class);
 });
+
+// Route::get('/', [TargetController::class, 'index'])->name('target.index');
+// Route::get('/{id}', [TargetController::class, 'show'])->name('target.show');
+// Route::get('/create', [TargetController::class, 'create'])->name('target.create');
+// Route::post('/store', [TargetController::class, 'store'])->name('target.store');
+// Route::get('/edit/{id}', [TargetController::class, 'edit'])->name('target.edit');
+// Route::put('/update/{id}', [TargetController::class, 'update'])->name('target.update');
+// Route::delete('/destroy/{id}', [TargetController::class, 'destroy'])->name('target.destroy');
+
+// Route::get('/dashboard/target/create', function () {
+//     dd('Test');
+// })->name('target.create');

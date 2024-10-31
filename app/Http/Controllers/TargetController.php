@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Target;
+use App\Models\{Target, Selector};
 use Illuminate\Http\Request;
 
 class TargetController extends Controller
@@ -26,7 +26,6 @@ class TargetController extends Controller
      */
     public function create()
     {
-        dd('Test');
         $title = 'Target';
         $subtitle = 'Tambah Target';
         return view('target.create', compact('title','subtitle'));
@@ -40,7 +39,26 @@ class TargetController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'name' => 'required',
+            'url' => 'required|url'
+        ],[
+            'name.required' => 'Harap mengisi nama website target',
+            'url.required' => 'Harap mengisi alamat website target',
+            'url.url' => 'Harap mengisi url yang valid',
+        ]);
+
+        $target = Target::create([
+            'name' => $request->input('name'),
+            'url' => $request->input('url'),
+        ]);
+        if ($target) {
+            $selector = Selector::create([
+                'target_id' => $target->id
+            ]);
+        }
+
+        return redirect()->route('target.index')->with('success', 'Berhasil menambahkan target');
     }
 
     /**
@@ -51,7 +69,9 @@ class TargetController extends Controller
      */
     public function show(Target $target)
     {
-        //
+        $title = 'Target';
+        $subtitle = 'Detail Target';
+        return view('target.show', compact('title','subtitle'));
     }
 
     /**

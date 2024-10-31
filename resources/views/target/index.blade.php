@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
 @endpush
 @section('content')
-
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between">
@@ -14,6 +13,19 @@
                     <a href="{{ route('target.create') }}" class="btn btn-sm btn-success">Tambah Target</a>
                 </div>
             </div>
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{$message}}
+                </div>
+                <script>
+                    var alertList = document.querySelectorAll(".alert");
+                    alertList.forEach(function(alert) {
+                        new bootstrap.Alert(alert);
+                    });
+                </script>
+            @endif
+
             <table class="table table-sm table-bordered" id="dataTable">
                 <thead>
                     <tr class="text-center">
@@ -33,7 +45,7 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->url }}</td>
                             <td>
-                                <a href="" class="btn btn-sm btn-info">Detail Target</a>
+                                <a href="{{route('target.show', $item->id)}}" class="btn btn-sm btn-primary text-white">Detail Target</a>
                             </td>
                         </tr>
                     @endforeach
@@ -41,8 +53,6 @@
             </table>
         </div>
     </div>
-    
-    
 @endsection
 @push('script')
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>

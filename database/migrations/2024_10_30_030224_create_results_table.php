@@ -16,13 +16,13 @@ class CreateResultsTable extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->foreignId('target_id')->constrained()->onDelete('cascade');
-            $table->string('keyword');
-            $table->string('headline');
-            $table->date('date');
-            $table->string('link');
-            $table->string('content');
-            $table->string('cover');
-            $table->json('tags');
+            $table->string('keyword')->nullable();
+            $table->string('headline')->nullable();
+            $table->date('date')->nullable();
+            $table->string('link')->nullable();
+            $table->string('content')->nullable();
+            $table->string('cover')->nullable();
+            $table->json('tags')->nullable();
             $table->timestamps();
         });
     }

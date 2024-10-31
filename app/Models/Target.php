@@ -11,7 +11,7 @@ class Target extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'keyword'
+        'url'
     ];
 
     public function selector(): HasOne

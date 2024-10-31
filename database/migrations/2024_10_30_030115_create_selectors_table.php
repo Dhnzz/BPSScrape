@@ -16,12 +16,12 @@ class CreateSelectorsTable extends Migration
         Schema::create('selectors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('target_id')->constrained()->onDelete('cascade');
-            $table->string('headline');
-            $table->date('date');
-            $table->string('link');
-            $table->string('content');
-            $table->string('cover');
-            $table->string('tags');
+            $table->string('headline')->nullable();
+            $table->date('date')->nullable();
+            $table->string('link')->nullable();
+            $table->string('content')->nullable();
+            $table->string('cover')->nullable();
+            $table->string('tags')->nullable();
             $table->timestamps();
         });
     }
