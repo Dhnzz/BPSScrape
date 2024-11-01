@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{Target, Selector};
 use Illuminate\Http\Request;
+use Goutte;
 
 class TargetController extends Controller
 {
@@ -71,7 +72,7 @@ class TargetController extends Controller
     {
         $title = 'Target';
         $subtitle = 'Detail Target';
-        return view('target.show', compact('title','subtitle'));
+        return view('target.show', compact('title','subtitle','target'));
     }
 
     /**
@@ -106,5 +107,22 @@ class TargetController extends Controller
     public function destroy(Target $target)
     {
         //
+    }
+
+    public function addSelector(Target $target)
+    {
+        $title = 'Target';
+        $subtitle = 'Tambah Selector';
+        return view('target.addSelector', compact('title','subtitle','target'));
+    }
+
+    public function saveSelector(Request $request, Target $target)
+    {
+        $website = Goutte::request('GET', $target->url);
+
+        $headlines = $website->filter($request->headline)->each(function ($node){
+            return $node->text();
+        }); 
+        return $headlines;
     }
 }

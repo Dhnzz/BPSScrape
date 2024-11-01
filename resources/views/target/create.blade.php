@@ -16,9 +16,10 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="" class="form-label">URL Web</label>
+                    <label for="" class="form-label">URL Web<span class="text-danger">*</span></label>
                     <input type="text" placeholder="Masukkan nama web target..."
                         class="form-control @error('url') is-invalid @enderror" value="{{old('url')}}" name="url">
+                        <small class="text-danger">Masukkan alamat pencarian, lalu ganti keyword pencarian dengan kata keyword : https://www.hulondalo.id/search?q=<strong class="fw-bold">bps</strong> >> https://www.hulondalo.id/search?q=<strong class="fw-bold">keyword</strong></small>
                     @error('url')
                         <small class="invalid-feedback">
                             {{$message}}

@@ -21,6 +21,8 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('target', TargetController::class);
+    Route::get('/target/selector/{target}', [TargetController::class, 'addSelector'])->name('target.addSelector');
+    Route::post('/target/saveSelector/{target}', [TargetController::class, 'saveSelector'])->name('target.saveSelector');
 });
 
 // Route::get('/', [TargetController::class, 'index'])->name('target.index');
