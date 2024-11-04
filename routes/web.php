@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{TargetController, DashboardController};
+use App\Http\Controllers\{TargetController, DashboardController, ScraperController};
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +23,12 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('target', TargetController::class);
     Route::get('/target/selector/{target}', [TargetController::class, 'addSelector'])->name('target.addSelector');
     Route::post('/target/saveSelector/{target}', [TargetController::class, 'saveSelector'])->name('target.saveSelector');
+    Route::get('/target/editSelector/{target}', [TargetController::class, 'editSelector'])->name('target.editSelector');
+    Route::put('/target/updateSelector/{target}', [TargetController::class, 'updateSelector'])->name('target.updateSelector');
+    Route::post('/scrape/{target}', [ScraperController::class, 'index'])->name('scrape');
 });
+
+Route::get('/scrape_test', [ScraperController::class, 'index'])->name('test');
 
 // Route::get('/', [TargetController::class, 'index'])->name('target.index');
 // Route::get('/{id}', [TargetController::class, 'show'])->name('target.show');

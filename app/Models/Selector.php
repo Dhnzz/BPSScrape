@@ -11,7 +11,7 @@ class Selector extends Model
     use HasFactory;
     protected $fillable = [
         'target_id',
-        'headlines',
+        'headline',
         'date',
         'link',
         'content',
