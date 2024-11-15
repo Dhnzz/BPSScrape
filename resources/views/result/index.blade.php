@@ -8,10 +8,7 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between">
-                <h4 class="card-title">Data Target</h4>
-                <div>
-                    <a href="{{ route('target.create') }}" class="btn btn-sm btn-success">Tambah Target</a>
-                </div>
+                <h4 class="card-title">Data Result {{ $result->target->name }}</h4>
             </div>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
@@ -30,8 +27,10 @@
                 <thead>
                     <tr class="text-center">
                         <th>No.</th>
-                        <th>Nama Target</th>
-                        <th>Url</th>
+                        <th>Keyword</th>
+                        <th>Headline</th>
+                        <th>Date</th>
+                        <th>Link</th>
                         <th>Opsi</th>
                     </tr>
                 </thead>
@@ -39,11 +38,13 @@
                     @php
                         $no = 1;
                     @endphp
-                    @foreach ($target as $item)
+                    @foreach ($result as $item)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $item->name }}</td>
-                            <td>{{ $item->url }}</td>
+                            <td>{{ $item->keyword }}</td>
+                            <td>{{ $item->headline }}</td>
+                            <td>{{ $item->date }}</td>
+                            <td>{{ $item->link }}</td>
                             <td>
                                 <a href="{{ route('target.show', $item->id) }}"
                                     class="btn btn-sm btn-primary text-white">Detail Target</a>
@@ -52,7 +53,7 @@
                                     data-bs-toggle="modal" data-bs-target="#exampleModal" data_value="{{ $item->id }}">
                                     Scrape Data
                                 </button>
-                                <a href="{{ route('result.index', $item->id) }}"
+                                <a href="{{ route('result.show', $item->id) }}"
                                     class="btn btn-sm btn-success text-white">Hasil Scrape</a>
                             </td>
                         </tr>

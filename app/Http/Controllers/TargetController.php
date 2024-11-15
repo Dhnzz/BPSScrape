@@ -44,17 +44,20 @@ class TargetController extends Controller
             [
                 'name' => 'required',
                 'url' => 'required|url',
+                'connector' => 'required'
             ],
             [
                 'name.required' => 'Harap mengisi nama website target',
                 'url.required' => 'Harap mengisi alamat website target',
                 'url.url' => 'Harap mengisi url yang valid',
+                'connector.required' => 'Harap mengisi connector keyword target',
             ],
         );
 
         $target = Target::create([
             'name' => $request->input('name'),
             'url' => $request->input('url'),
+            'connector' => $request->input('connector'),
         ]);
         if ($target) {
             $selector = Selector::create([

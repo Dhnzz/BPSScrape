@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Result;
+use App\Models\keyword;
 use Illuminate\Http\Request;
 
-class ResultController extends Controller
+class KeywordController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        $title = 'Result';
-        $result = Result::where('target_id','=', $id)->get();
-        return view('result.index', compact('title','result'));
+        //
     }
 
     /**
@@ -43,10 +41,10 @@ class ResultController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Result  $result
+     * @param  \App\Models\keyword  $keyword
      * @return \Illuminate\Http\Response
      */
-    public function show(Result $result)
+    public function show(keyword $keyword)
     {
         //
     }
@@ -54,10 +52,10 @@ class ResultController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Result  $result
+     * @param  \App\Models\keyword  $keyword
      * @return \Illuminate\Http\Response
      */
-    public function edit(Result $result)
+    public function edit(keyword $keyword)
     {
         //
     }
@@ -66,10 +64,10 @@ class ResultController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Result  $result
+     * @param  \App\Models\keyword  $keyword
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Result $result)
+    public function update(Request $request, keyword $keyword)
     {
         //
     }
@@ -77,10 +75,10 @@ class ResultController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Result  $result
+     * @param  \App\Models\keyword  $keyword
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Result $result)
+    public function destroy(keyword $keyword)
     {
         //
     }

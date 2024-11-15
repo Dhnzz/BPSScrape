@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{TargetController, DashboardController, ScraperController};
+use App\Http\Controllers\{TargetController, DashboardController, ScraperController, ResultController, KeywordController};
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +26,10 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/target/editSelector/{target}', [TargetController::class, 'editSelector'])->name('target.editSelector');
     Route::put('/target/updateSelector/{target}', [TargetController::class, 'updateSelector'])->name('target.updateSelector');
     Route::post('/scrape/{target}', [ScraperController::class, 'index'])->name('scrape');
+
+    Route::get('/result/{id}', [ResultController::class, 'index'])->name('result.index');
+
+    Route::resource('keyword', KeywordController::class);
 });
 
 Route::get('/scrape_test', [ScraperController::class, 'index'])->name('test');

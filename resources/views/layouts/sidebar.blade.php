@@ -31,6 +31,11 @@
             <i class="fas fa-fw fa-bullseye"></i>
             <span>Targets</span></a>
     </li>
+    <li class="nav-item {{ request()->routeIs('keyword.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('target.index') }}">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Keyword</span></a>
+    </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
     {{-- <li class="nav-item">
