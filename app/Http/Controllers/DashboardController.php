@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Target, Result};
+use App\Models\{Target, Result, Keyword};
 
 class DashboardController extends Controller
 {
@@ -11,6 +11,7 @@ class DashboardController extends Controller
     {
         $target = Target::all();
         $result = Result::all();
-        return view('dashboard', compact('target','result'));
+        $keyword = Keyword::all();
+        return view('dashboard', compact('target','result','keyword'));
     }
 }

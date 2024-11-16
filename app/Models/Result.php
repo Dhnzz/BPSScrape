@@ -12,7 +12,7 @@ class Result extends Model
     protected $fillable = [
         'target_id',
         'keyword',
-        'headlines',
+        'headline',
         'date',
         'link',
         'content',

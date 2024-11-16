@@ -2,13 +2,14 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Tambah Data Target</h5>
-            <form method="POST" action="{{ route('target.store') }}" class="" enctype="multipart/form-data">
+            <h5 class="card-title">Edit Data Target</h5>
+            <form method="POST" action="{{ route('target.update', $target->id) }}" class="" enctype="multipart/form-data">
+                @method('PUT')
                 @csrf
                 <div class="mb-3">
                     <label for="" class="form-label">Nama Web</label>
                     <input type="text" placeholder="Masukkan nama web target..."
-                        class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" name="name">
+                        class="form-control @error('name') is-invalid @enderror" name="name" value="{{$target->name}}">
                     @error('name')
                         <small class="invalid-feedback">
                             {{$message}}
@@ -18,7 +19,7 @@
                 <div class="mb-3">
                     <label for="" class="form-label">URL Web<span class="text-danger">*</span></label>
                     <input type="text" placeholder="Masukkan nama web target..."
-                        class="form-control @error('url') is-invalid @enderror" value="{{old('url')}}" name="url">
+                        class="form-control @error('url') is-invalid @enderror" name="url" value="{{$target->url}}">
                         <small class="text-danger">Masukkan alamat pencarian, lalu ganti keyword pencarian dengan kata keyword : https://www.hulondalo.id/search?q=<strong class="fw-bold">bps</strong> >> https://www.hulondalo.id/search?q=<strong class="fw-bold">keyword</strong></small>
                     @error('url')
                         <small class="invalid-feedback">
@@ -29,7 +30,7 @@
                 <div class="mb-3">
                     <label for="" class="form-label">Keyword Connector<span class="text-danger">*</span></label>
                     <input type="text" placeholder="Masukkan connector keyword target..."
-                        class="form-control @error('connector') is-invalid @enderror" value="{{old('connector')}}" name="connector">
+                        class="form-control @error('connector') is-invalid @enderror" name="connector" value="{{$target->connector}}">
                         <small class="text-danger">Masukkan penyambung unik dari target</small>
                     @error('connector')
                         <small class="invalid-feedback">

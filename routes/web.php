@@ -28,11 +28,12 @@ Route::prefix('dashboard')->group(function () {
     Route::post('/scrape/{target}', [ScraperController::class, 'index'])->name('scrape');
 
     Route::get('/result/{id}', [ResultController::class, 'index'])->name('result.index');
+    Route::get('/result/show/{id}', [ResultController::class, 'show'])->name('result.show');
 
     Route::resource('keyword', KeywordController::class);
 });
 
-Route::get('/scrape_test', [ScraperController::class, 'index'])->name('test');
+Route::get('/scrape_test/{target}', [ScraperController::class, 'test'])->name('test');
 
 // Route::get('/', [TargetController::class, 'index'])->name('target.index');
 // Route::get('/{id}', [TargetController::class, 'show'])->name('target.show');

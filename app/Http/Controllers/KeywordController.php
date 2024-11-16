@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\keyword;
+use App\Models\Keyword;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class KeywordController extends Controller
 {
@@ -14,7 +15,9 @@ class KeywordController extends Controller
      */
     public function index()
     {
-        //
+        $title = 'Keyword';
+        $keyword = Keyword::all();
+        return view('keyword.index', compact('title', 'keyword'));
     }
 
     /**
@@ -24,7 +27,9 @@ class KeywordController extends Controller
      */
     public function create()
     {
-        //
+        $title = 'Keyword';
+        $subtitle = 'Tambah Keyword';
+        return view('keyword.create', compact('title', 'subtitle'));
     }
 
     /**
@@ -35,7 +40,21 @@ class KeywordController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'keyword' => 'required',
+            ],
+            [
+                'keyword.required' => 'Harap untuk mengisi kolom keyword',
+            ],
+        );
+
+        $keyword = Keyword::create([
+            'keyword' => $request->input('keyword'),
+            'slug' => Str::lower($request->input('keyword')),
+        ]);
+
+        return redirect()->route('keyword.index')->with('success', 'Berhasil menambahkan keyword');
     }
 
     /**
@@ -46,7 +65,9 @@ class KeywordController extends Controller
      */
     public function show(keyword $keyword)
     {
-        //
+        $title = 'Keyword';
+        $subtitle = 'Detail Keyword';
+        return view('keyword.show', compact('title', 'subtitle', 'keyword'));
     }
 
     /**
@@ -57,7 +78,9 @@ class KeywordController extends Controller
      */
     public function edit(keyword $keyword)
     {
-        //
+        $title = 'Keyword';
+        $subtitle = 'Edit Keyword';
+        return view('keyword.edit', compact('title', 'subtitle', 'keyword'));
     }
 
     /**
@@ -69,7 +92,20 @@ class KeywordController extends Controller
      */
     public function update(Request $request, keyword $keyword)
     {
-        //
+        $request->validate(
+            [
+                'keyword' => 'required',
+            ],
+            [
+                'keyword.required' => 'Harap untuk mengisi kolom keyword',
+            ],
+        );
+
+        $keyword->update([
+            'keyword' => $request->input('keyword'),
+            'slug' => Str::lower($request->input('keyword')),
+        ]);
+        return redirect()->route('keyword.index')->with('success', 'Berhasil mengubah keyword');
     }
 
     /**
@@ -80,6 +116,7 @@ class KeywordController extends Controller
      */
     public function destroy(keyword $keyword)
     {
-        //
+        $keyword->delete();
+        return redirect()->route('keyword.index')->with('success', 'Berhasil menghapus keyword');
     }
 }

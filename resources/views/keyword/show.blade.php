@@ -33,7 +33,22 @@
                     <span class="form-control-plaintext text-wrap">{{ $target->url }}</span>
                 </div>
             </div>
+            <div class="mb-3 row">
+                <label for="" class="col-sm-2 col-5 col-form-label">Penghubung Unik</label>
+                <div class="col-auto col-form-label">
+                    <span>:</span>
+                </div>
+                <div class="col-6">
+                    <span class="form-control-plaintext text-wrap">{{ Str::replace('keyword', 'keyword1"'.$target->connector.'"keyword2', $target->url) }}</span>
+                </div>
+            </div>
 
+            <div>
+                <a href="{{ route('target.edit', $target->id) }}" class="btn btn-warning text-white">Edit Target</a>
+                <a href="{{ route('target.destroy', $target->id) }}" class="btn btn-danger text-white">Hapus
+                    Target</a>
+            </div>
+            
             <hr class="border border-3 opacity-75">
 
             <div class="mb-3 row">

@@ -8,9 +8,9 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between">
-                <h4 class="card-title">Data Target</h4>
+                <h4 class="card-title">Data Keyword</h4>
                 <div>
-                    <a href="{{ route('target.create') }}" class="btn btn-sm btn-success">Tambah Target</a>
+                    <a href="{{ route('keyword.create') }}" class="btn btn-sm btn-success">Tambah Keyword</a>
                 </div>
             </div>
             @if ($message = Session::get('success'))
@@ -30,8 +30,7 @@
                 <thead>
                     <tr class="text-center">
                         <th>No.</th>
-                        <th>Nama Target</th>
-                        <th>Url</th>
+                        <th>Keyword</th>
                         <th>Opsi</th>
                     </tr>
                 </thead>
@@ -39,21 +38,17 @@
                     @php
                         $no = 1;
                     @endphp
-                    @foreach ($target as $item)
+                    @foreach ($keyword as $item)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $item->name }}</td>
-                            <td>{{ $item->url }}</td>
-                            <td>
-                                <a href="{{ route('target.show', $item->id) }}"
-                                    class="btn btn-sm btn-primary text-white">Detail Target</a>
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-sm btn-warning text-white btn-scrape"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal" data_value="{{ $item->id }}">
-                                    Scrape Data
-                                </button>
-                                <a href="{{ route('result.index', $item->id) }}"
-                                    class="btn btn-sm btn-success text-white">Hasil Scrape</a>
+                            <td>{{ $item->keyword }}</td>
+                            <td class="d-flex flex-row gap-2">
+                                <a href="{{route('keyword.edit', $item->id)}}" class="btn btn-sm btn-warning text-white">Edit Keyword</a>
+                                <form action="{{route('keyword.destroy', $item->id)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger text-white">Hapus Keyword</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
@@ -72,9 +67,10 @@
                         <form id="scrapeForm" method="POST">
                             @csrf
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name="keyword" id="floatingInput" placeholder="name@example.com">
+                                <input type="text" class="form-control" name="keyword" id="floatingInput"
+                                    placeholder="name@example.com">
                                 <label for="floatingInput">Keyword</label>
-                              </div>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

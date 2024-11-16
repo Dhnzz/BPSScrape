@@ -18,7 +18,7 @@ class CreateResultsTable extends Migration
             $table->foreignId('target_id')->constrained()->onDelete('cascade');
             $table->string('keyword')->nullable();
             $table->string('headline')->nullable();
-            $table->date('date')->nullable();
+            $table->string('date')->nullable();
             $table->string('link')->nullable();
             $table->text('content')->nullable();
             $table->string('cover')->nullable();

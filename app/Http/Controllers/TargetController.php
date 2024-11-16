@@ -89,7 +89,9 @@ class TargetController extends Controller
      */
     public function edit(Target $target)
     {
-        //
+        $title = 'Target';
+        $subtitle = 'Edit Target';
+        return view('target.edit', compact('title', 'subtitle','target'));
     }
 
     /**
@@ -101,7 +103,27 @@ class TargetController extends Controller
      */
     public function update(Request $request, Target $target)
     {
-        //
+        $request->validate(
+            [
+                'name' => 'required',
+                'url' => 'required|url',
+                'connector' => 'required'
+            ],
+            [
+                'name.required' => 'Harap mengisi nama website target',
+                'url.required' => 'Harap mengisi alamat website target',
+                'url.url' => 'Harap mengisi url yang valid',
+                'connector.required' => 'Harap mengisi connector keyword target',
+            ],
+        );
+
+        $target->update([
+            'name' => $request->input('name'),
+            'url' => $request->input('url'),
+            'connector' => $request->input('connector'),
+        ]);
+
+        return redirect()->route('target.index')->with('success', 'Berhasil mengubah data target');
     }
 
     /**
@@ -112,7 +134,8 @@ class TargetController extends Controller
      */
     public function destroy(Target $target)
     {
-        //
+        $target->delete();
+        return redirect()->route('keyword.index')->with('success', 'Berhasil menghapus target');
     }
 
     public function addSelector(Target $target)

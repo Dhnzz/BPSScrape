@@ -32,7 +32,7 @@
             <span>Targets</span></a>
     </li>
     <li class="nav-item {{ request()->routeIs('keyword.*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('target.index') }}">
+        <a class="nav-link" href="{{ route('keyword.index') }}">
             <i class="fa-solid fa-magnifying-glass"></i>
             <span>Keyword</span></a>
     </li>
