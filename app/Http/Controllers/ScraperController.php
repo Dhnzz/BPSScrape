@@ -11,7 +11,7 @@ class ScraperController extends Controller
 {
     public function index(Target $target)
     {
-        $selectorCheck = $target->selector->where([['target_id', '=', $target->id],['headline', '!=', null], ['date', '!=', null], ['link', '!=', null], ['content', '!=', null], ['cover', '!=', null], ['tags', '!=', null]])->count();
+        $selectorCheck = $target->selector->where([['target_id', '=', $target->id], ['headline', '!=', null], ['date', '!=', null], ['link', '!=', null], ['content', '!=', null], ['cover', '!=', null], ['tags', '!=', null]])->count();
         if ($selectorCheck == 0) {
             return redirect()->route('target.index')->with('error', 'Silahkan isi selector dari target terlebih dahulu');
         }
@@ -53,7 +53,11 @@ class ScraperController extends Controller
                 $date = $crawler->filter($selector->date)->each(function ($node) {
                     return $node->text();
                 });
-                $headline['date'] = str_replace(['- '], '', implode(' ', $date));
+                if (count($date) > 1) {
+                    $headline['date'] = $date[0];
+                }else{
+                    $headline['date'] = str_replace(['- '], '', implode(' ', $date));
+                }
 
                 // Mengambil isi artikel menggunakan selector content
                 $content = $crawler->filter($selector->content)->each(function ($node) {
@@ -63,7 +67,7 @@ class ScraperController extends Controller
 
                 // Mengambil gambar cover menggunakan selector cover
                 $cover = $crawler->filter($selector->cover)->each(function ($node) {
-                    return $node->attr('src');
+                    return $node->attr('data-src');
                 });
                 $headline['cover'] = !empty($cover) ? $cover[0] : null;
 
@@ -115,7 +119,7 @@ class ScraperController extends Controller
 
     public function test(Target $target)
     {
-        $selectorCheck = $target->selector->where([['target_id', '=', $target->id],['headline', '!=', null], ['date', '!=', null], ['link', '!=', null], ['content', '!=', null], ['cover', '!=', null], ['tags', '!=', null]])->count();
+        $selectorCheck = $target->selector->where([['target_id', '=', $target->id], ['headline', '!=', null], ['date', '!=', null], ['link', '!=', null], ['content', '!=', null], ['cover', '!=', null], ['tags', '!=', null]])->count();
         if ($selectorCheck == 0) {
             return redirect()->route('target.index')->with('error', 'Silahkan isi selector dari target terlebih dahulu');
         }
@@ -157,7 +161,11 @@ class ScraperController extends Controller
                 $date = $crawler->filter($selector->date)->each(function ($node) {
                     return $node->text();
                 });
-                $headline['date'] = str_replace(['- '], '', implode(' ', $date));
+                if (count($date) > 1) {
+                    $headline['date'] = $date[0];
+                }else{
+                    $headline['date'] = str_replace(['- '], '', implode(' ', $date));
+                }
 
                 // Mengambil isi artikel menggunakan selector content
                 $content = $crawler->filter($selector->content)->each(function ($node) {
@@ -167,9 +175,10 @@ class ScraperController extends Controller
 
                 // Mengambil gambar cover menggunakan selector cover
                 $cover = $crawler->filter($selector->cover)->each(function ($node) {
-                    return $node->attr('src');
+                    return $node->attr('data-src');
                 });
                 $headline['cover'] = !empty($cover) ? $cover[0] : null;
+                dump($cover);
 
                 // Mengambil tags artikel menggunakan selector tags
                 $tags = $crawler->filter($selector->tags)->each(function ($node) {
@@ -177,43 +186,8 @@ class ScraperController extends Controller
                 });
                 $headline['tags'] = json_encode($tags);
 
-                // // Simpan ke database (periksa jika sudah ada, maka update; jika tidak, buat baru)
-                // $existingResult = Result::where('target_id', $target->id)
-                //     ->where('keyword', $headline['keyword'])
-                //     ->where('headline', $headline['headline'])
-                //     ->first();
-
-                // if ($existingResult) {
-                //     // Jika data sudah ada, update berita terbaru
-                //     $existingResult->update([
-                //         'keyword' => $headline['keyword'],
-                //         'headline' => $headline['headline'],
-                //         'date' => $headline['date'],
-                //         'content' => $headline['content'],
-                //         'cover' => $headline['cover'],
-                //         'tags' => $headline['tags'],
-                //         'link' => $headline['link'],
-                //     ]);
-                // } else {
-                //     // Jika data tidak ada, buat entri baru
-                //     Result::create([
-                //         'target_id' => $target->id,
-                //         'keyword' => $headline['keyword'],
-                //         'headline' => $headline['headline'],
-                //         'date' => $headline['date'],
-                //         'link' => $headline['link'],
-                //         'content' => $headline['content'],
-                //         'cover' => $headline['cover'],
-                //         'tags' => $headline['tags'],
-                //     ]);
-                // }
-
-                dump($headline);
+                // dump($headline);
             });
         }
-
-        // return redirect()
-        //     ->route('result.index', $target->id)
-        //     ->with('success', 'Berhasil mendapatkan hasil scrape');
     }
 }
