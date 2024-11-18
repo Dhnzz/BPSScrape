@@ -55,7 +55,7 @@ class ScraperController extends Controller
                 });
                 if (count($date) > 1) {
                     $headline['date'] = $date[0];
-                }else{
+                } else {
                     $headline['date'] = str_replace(['- '], '', implode(' ', $date));
                 }
 
@@ -163,7 +163,7 @@ class ScraperController extends Controller
                 });
                 if (count($date) > 1) {
                     $headline['date'] = $date[0];
-                }else{
+                } else {
                     $headline['date'] = str_replace(['- '], '', implode(' ', $date));
                 }
 
@@ -177,8 +177,14 @@ class ScraperController extends Controller
                 $cover = $crawler->filter($selector->cover)->each(function ($node) {
                     return $node->attr('data-src');
                 });
-                $headline['cover'] = !empty($cover) ? $cover[0] : null;
-                dump($cover);
+                if ($cover[0] == null) {
+                    $cover = $crawler->filter($selector->cover)->each(function ($node) {
+                        return $node->attr('src');
+                    });
+                    $headline['cover'] = !empty($cover) ? $cover[0] : null;
+                }else{
+                    $headline['cover'] = !empty($cover) ? $cover[0] : null;
+                }
 
                 // Mengambil tags artikel menggunakan selector tags
                 $tags = $crawler->filter($selector->tags)->each(function ($node) {
@@ -188,6 +194,7 @@ class ScraperController extends Controller
 
                 // dump($headline);
             });
+            dd('done');
         }
     }
 }
