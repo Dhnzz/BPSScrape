@@ -39,19 +39,20 @@
                     <span>:</span>
                 </div>
                 <div class="col-6">
-                    <span class="form-control-plaintext text-wrap">{{ Str::replace('keyword', 'keyword1"'.$target->connector.'"keyword2', $target->url) }}</span>
+                    <span
+                        class="form-control-plaintext text-wrap">{{ Str::replace('keyword', 'keyword1"' . $target->connector . '"keyword2', $target->url) }}</span>
                 </div>
             </div>
 
             <div class="d-flex flex-row">
                 <a href="{{ route('target.edit', $target->id) }}" class="btn btn-warning text-white mr-2">Edit Target</a>
-                <form action="{{route('target.destroy', $target->id)}}" enctype="multipart/form-data" method="POST">
+                <form action="{{ route('target.destroy', $target->id) }}" enctype="multipart/form-data" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger text-white">Hapus Target</button>
                 </form>
             </div>
-            
+
             <hr class="border border-3 opacity-75">
 
             <div class="mb-3 row">
@@ -115,9 +116,18 @@
                 </div>
             </div>
             <div>
-                <a href="{{ route('target.addSelector', $target->id) }}" class="btn btn-success">Tambah Selector</a>
-                <a href="{{ route('target.editSelector', $target->id) }}" class="btn btn-warning text-white">Edit
-                    Selector</a>
+                @if (
+                    $target->selector->headline == null &&
+                        $target->selector->date == null &&
+                        $target->selector->link == null &&
+                        $target->selector->content == null &&
+                        $target->selector->cover == null &&
+                        $target->selector->tags == null)
+                    <a href="{{ route('target.addSelector', $target->id) }}" class="btn btn-success">Tambah Selector</a>
+                @else
+                    <a href="{{ route('target.editSelector', $target->id) }}" class="btn btn-warning text-white">Edit
+                        Selector</a>
+                @endif
             </div>
         </div>
     </div>

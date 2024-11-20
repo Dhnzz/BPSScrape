@@ -46,15 +46,8 @@
                             <td>{{ $item->date }}</td>
                             <td>{{ $item->link }}</td>
                             <td>
-                                <a href="{{ route('target.show', $item->id) }}"
-                                    class="btn btn-sm btn-primary text-white">Detail Target</a>
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-sm btn-warning text-white btn-scrape"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal" data_value="{{ $item->id }}">
-                                    Scrape Data
-                                </button>
                                 <a href="{{ route('result.show', $item->id) }}"
-                                    class="btn btn-sm btn-success text-white">Hasil Scrape</a>
+                                    class="btn btn-sm btn-primary">Detail Result</a>
                             </td>
                         </tr>
                     @endforeach

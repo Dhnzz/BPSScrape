@@ -48,7 +48,8 @@ class ResultController extends Controller
      */
     public function show(Result $result)
     {
-        //
+        $title = 'Detail Result';
+        return view('result.show', compact('title','result'));
     }
 
     /**
