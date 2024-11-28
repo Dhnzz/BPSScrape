@@ -83,6 +83,7 @@ class ResultController extends Controller
      */
     public function destroy(Result $result)
     {
-        //
+        $result->delete();
+        return redirect()->route('result.index', $result->id);
     }
 }

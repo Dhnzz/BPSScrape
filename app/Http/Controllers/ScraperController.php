@@ -59,11 +59,37 @@ class ScraperController extends Controller
                     $headline['date'] = str_replace(['- '], '', implode(' ', $date));
                 }
 
-                // Mengambil isi artikel menggunakan selector content
-                $content = $crawler->filter($selector->content)->each(function ($node) {
-                    return $node->text();
-                });
-                $headline['content'] = implode(' ', $content);
+                $content = '';
+                $content .= implode(
+                    ' ',
+                    $crawler->filter($selector->content)->each(function ($node) {
+                        return $node->text();
+                    }),
+                );
+
+                while (true) {
+                    $nextPageLink = $crawler->filter('a:contains("Selanjutnya")');
+
+                    if ($nextPageLink->count() == 0) {
+                        break;
+                    }
+
+                    try {
+                        $nextPageLink = $nextPageLink->link();
+                        $crawler = $client->click($nextPageLink);
+
+                        $content .= implode(
+                            ' ',
+                            $crawler->filter($selector->content)->each(function ($node) {
+                                return $node->text();
+                            }),
+                        );
+                    } catch (\Exception $e) {
+                        //throw $th;
+                        break;
+                    }
+                }
+                $headline['content'] = $content;
 
                 // Mengambil gambar cover menggunakan selector cover
                 $cover = $crawler->filter($selector->cover)->each(function ($node) {
@@ -168,11 +194,38 @@ class ScraperController extends Controller
                 }
 
                 // Mengambil isi artikel menggunakan selector content
-                $content = $crawler->filter($selector->content)->each(function ($node) {
-                    return $node->text();
-                });
-                $headline['content'] = implode(' ', $content);
+                $content = '';
+                $content .= implode(
+                    ' ',
+                    $crawler->filter($selector->content)->each(function ($node) {
+                        return $node->text();
+                    }),
+                );
 
+                while (true) {
+                    $nextPageLink = $crawler->filter('a:contains("Selanjutnya")');
+
+                    if ($nextPageLink->count() == 0) {
+                        break;
+                    }
+
+                    try {
+                        $nextPageLink = $nextPageLink->link();
+                        $crawler = $client->click($nextPageLink);
+
+                        $content .= implode(
+                            ' ',
+                            $crawler->filter($selector->content)->each(function ($node) {
+                                return $node->text();
+                            }),
+                        );
+                    } catch (\Exception $e) {
+                        //throw $th;
+                        break;
+                    }
+                }
+                $headline['content'] = $content;
+                dump($headline['content']);
                 // Mengambil gambar cover menggunakan selector cover
                 $cover = $crawler->filter($selector->cover)->each(function ($node) {
                     return $node->attr('data-src');
@@ -182,7 +235,7 @@ class ScraperController extends Controller
                         return $node->attr('src');
                     });
                     $headline['cover'] = !empty($cover) ? $cover[0] : null;
-                }else{
+                } else {
                     $headline['cover'] = !empty($cover) ? $cover[0] : null;
                 }
 
