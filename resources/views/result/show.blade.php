@@ -72,12 +72,11 @@
                         <span>:</span>
                     </div>
                     <div class="col-6 row">
-                        @foreach (json_decode($result->tags, true) as $item)
-                            <div class="col-3">
-                                <span
-                                    class="text-center form-control-plaintext text-wrap bg-primary text-white p-1 rounded">{{ $item }}</span>
-                            </div>
-                        @endforeach
+                        <ul>
+                            @foreach (json_decode($result->tags, true) as $item)
+                                <li>{{$item}}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
