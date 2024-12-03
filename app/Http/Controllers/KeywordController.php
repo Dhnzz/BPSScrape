@@ -17,7 +17,10 @@ class KeywordController extends Controller
     {
         $title = 'Keyword';
         $keyword = Keyword::all();
-        return view('keyword.index', compact('title', 'keyword'));
+        $breadcrumb = [
+            ['label' => 'Keyword'],
+        ];
+        return view('keyword.index', compact('title', 'keyword','breadcrumb'));
     }
 
     /**
@@ -28,8 +31,11 @@ class KeywordController extends Controller
     public function create()
     {
         $title = 'Keyword';
-        $subtitle = 'Tambah Keyword';
-        return view('keyword.create', compact('title', 'subtitle'));
+        $breadcrumb = [
+            ['label' => 'Keyword', 'route' => route('keyword.index')],
+            ['label' => 'Tambah Keyword'],
+        ];
+        return view('keyword.create', compact('title', 'breadcrumb'));
     }
 
     /**
@@ -66,8 +72,11 @@ class KeywordController extends Controller
     public function show(keyword $keyword)
     {
         $title = 'Keyword';
-        $subtitle = 'Detail Keyword';
-        return view('keyword.show', compact('title', 'subtitle', 'keyword'));
+        $breadcrumb = [
+            ['label' => 'Keyword', 'route' => route('keyword.index')],
+            ['label' => 'Detail Keyword'],
+        ];
+        return view('keyword.show', compact('title', 'breadcrumb', 'keyword'));
     }
 
     /**
@@ -79,8 +88,11 @@ class KeywordController extends Controller
     public function edit(keyword $keyword)
     {
         $title = 'Keyword';
-        $subtitle = 'Edit Keyword';
-        return view('keyword.edit', compact('title', 'subtitle', 'keyword'));
+        $breadcrumb = [
+            ['label' => 'Keyword', 'route' => route('keyword.index')],
+            ['label' => 'Edit Keyword'],
+        ];
+        return view('keyword.edit', compact('title', 'breadcrumb', 'keyword'));
     }
 
     /**

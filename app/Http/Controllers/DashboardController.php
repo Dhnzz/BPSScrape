@@ -12,6 +12,9 @@ class DashboardController extends Controller
         $target = Target::all();
         $result = Result::all();
         $keyword = Keyword::all();
-        return view('dashboard', compact('target','result','keyword'));
+        $breadcrumb = [
+            ['label' => 'Dashboard']
+        ];
+        return view('dashboard', compact('target','result','keyword','breadcrumb'));
     }
 }

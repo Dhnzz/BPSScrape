@@ -49,7 +49,11 @@ class ResultController extends Controller
     public function show(Result $result)
     {
         $title = 'Detail Result';
-        return view('result.show', compact('title','result'));
+        $breadcrumb = [
+            ['label' => 'Target', 'route' => route('target.index')],
+            ['label' => 'Detail Result'],
+        ];
+        return view('result.show', compact('title','result','breadcrumb'));
     }
 
     /**

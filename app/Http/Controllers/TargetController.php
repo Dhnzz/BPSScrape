@@ -17,7 +17,10 @@ class TargetController extends Controller
     {
         $title = 'Target';
         $target = Target::all();
-        return view('target.index', compact('title', 'target'));
+        $breadcrumb = [
+            ['label' => 'Target']
+        ];
+        return view('target.index', compact('title', 'target', 'breadcrumb'));
     }
 
     /**
@@ -28,8 +31,11 @@ class TargetController extends Controller
     public function create()
     {
         $title = 'Target';
-        $subtitle = 'Tambah Target';
-        return view('target.create', compact('title', 'subtitle'));
+        $breadcrumb = [
+            ['label' => 'Target', 'route' => route('target.index')],
+            ['label' => 'Tambah Target'],
+        ];
+        return view('target.create', compact('title', 'breadcrumb'));
     }
 
     /**
@@ -77,8 +83,11 @@ class TargetController extends Controller
     public function show(Target $target)
     {
         $title = 'Target';
-        $subtitle = 'Detail Target';
-        return view('target.show', compact('title', 'subtitle', 'target'));
+        $breadcrumb = [
+            ['label' => 'Target', 'route' => route('target.index')],
+            ['label' => 'Detail Target'],
+        ];
+        return view('target.show', compact('title', 'breadcrumb', 'target'));
     }
 
     /**
@@ -90,8 +99,11 @@ class TargetController extends Controller
     public function edit(Target $target)
     {
         $title = 'Target';
-        $subtitle = 'Edit Target';
-        return view('target.edit', compact('title', 'subtitle','target'));
+        $breadcrumb = [
+            ['label' => 'Target', 'route' => route('target.index')],
+            ['label' => 'Edit Target'],
+        ];
+        return view('target.edit', compact('title', 'breadcrumb','target'));
     }
 
     /**
@@ -141,8 +153,12 @@ class TargetController extends Controller
     public function addSelector(Target $target)
     {
         $title = 'Target';
-        $subtitle = 'Tambah Selector';
-        return view('target.addSelector', compact('title', 'subtitle', 'target'));
+        $breadcrumb = [
+            ['label' => 'Target', 'route' => route('target.index')],
+            ['label' => 'Detail Target', 'route' => route('target.show', $target->id)],
+            ['label' => 'Tambah Selector'],
+        ];
+        return view('target.addSelector', compact('title', 'breadcrumb', 'target'));
     }
 
     public function saveSelector(Request $request, Target $target)
@@ -179,8 +195,12 @@ class TargetController extends Controller
     public function editSelector(Target $target)
     {
         $title = 'Target';
-        $subtitle = 'Edit Selector';
-        return view('target.editSelector', compact('title', 'subtitle', 'target'));
+        $breadcrumb = [
+            ['label' => 'Target', 'route' => route('target.index')],
+            ['label' => 'Detail Target', 'route' => route('target.show', $target->id)],
+            ['label' => 'Edit Selector'],
+        ];
+        return view('target.editSelector', compact('title', 'breadcrumb', 'target'));
     }
 
     public function updateSelector(Request $request, Target $target)

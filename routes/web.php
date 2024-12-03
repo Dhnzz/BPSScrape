@@ -17,8 +17,8 @@ use App\Http\Controllers\{TargetController, DashboardController, ScraperControll
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::prefix('dashboard')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('target', TargetController::class);
     Route::get('/target/selector/{target}', [TargetController::class, 'addSelector'])->name('target.addSelector');
