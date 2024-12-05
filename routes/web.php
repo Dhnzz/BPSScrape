@@ -26,9 +26,10 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/target/editSelector/{target}', [TargetController::class, 'editSelector'])->name('target.editSelector');
     Route::put('/target/updateSelector/{target}', [TargetController::class, 'updateSelector'])->name('target.updateSelector');
     Route::post('/scrape/{target}', [ScraperController::class, 'index'])->name('scrape');
-    Route::get('/target/result/{id}', [ResultController::class, 'index'])->name('result.index');
-    Route::get('/target/result/show/{result}', [ResultController::class, 'show'])->name('result.show');
-
+    
+    Route::get('/result', [ResultController::class, 'index'])->name('result.index');
+    Route::get('/result/show/{result}', [ResultController::class, 'show'])->name('result.show');
+    
     Route::resource('keyword', KeywordController::class);
 
     Route::get('/scrape_test/{target}', [ScraperController::class, 'test'])->name('test');

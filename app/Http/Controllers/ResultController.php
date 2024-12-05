@@ -12,11 +12,14 @@ class ResultController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
         $title = 'Result';
-        $result = Result::where('target_id','=', $id)->get();
-        return view('result.index', compact('title','result'));
+        $result = Result::all();
+        $breadcrumb = [
+            ['label' => 'Result'],
+        ];
+        return view('result.index', compact('title','result','breadcrumb'));
     }
 
     /**
@@ -50,7 +53,7 @@ class ResultController extends Controller
     {
         $title = 'Detail Result';
         $breadcrumb = [
-            ['label' => 'Target', 'route' => route('target.index')],
+            ['label' => 'Result', 'route' => route('result.index')],
             ['label' => 'Detail Result'],
         ];
         return view('result.show', compact('title','result','breadcrumb'));

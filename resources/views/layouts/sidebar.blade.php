@@ -36,6 +36,11 @@
             <i class="fa-solid fa-magnifying-glass"></i>
             <span>Keyword</span></a>
     </li>
+    <li class="nav-item {{ request()->routeIs('result.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('result.index') }}">
+            <i class="fa-solid fa-list"></i>
+            <span>Result</span></a>
+    </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
     {{-- <li class="nav-item">
