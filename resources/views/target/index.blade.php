@@ -60,13 +60,13 @@
                                             @csrf
                                             <button type="submit" class="btn btn-sm btn-warning text-white">Scrape</button>
                                         </form>
-                                        @if ($item->result->count() == 0)
+                                        {{-- @if ($item->result->count() == 0)
                                             <a href="{{ route('result.index', $item->id) }}"
                                                 class="btn btn-sm btn-danger text-white disabled">Belum memiliki data</a>
                                         @else
                                             <a href="{{ route('result.index', $item->id) }}"
                                                 class="btn btn-sm btn-success text-white">Hasil Scrape</a>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </td>
                             </tr>
