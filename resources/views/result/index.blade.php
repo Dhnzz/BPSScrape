@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between">
-                <h4 class="card-title">Data Result {{ $result->first()->target->name }}</h4>
+                <h4 class="card-title">Data Result</h4>
             </div>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success alert-dismissible fade show my-3" role="alert">

@@ -246,7 +246,6 @@ class ScraperController extends Controller
                     });
                     $headline['tags'] = json_encode($tags);
 
-                    dump($headline);
                 });
 
                 // Cek apakah ada halaman berikutnya
@@ -263,7 +262,7 @@ class ScraperController extends Controller
                 }
             }
         }
-
+        dd(count($headlines));
         dd('done');
     }
 }

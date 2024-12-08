@@ -147,7 +147,7 @@ class TargetController extends Controller
     public function destroy(Target $target)
     {
         $target->delete();
-        return redirect()->route('keyword.index')->with('success', 'Berhasil menghapus target');
+        return redirect()->route('target.index')->with('success', 'Berhasil menghapus target');
     }
 
     public function addSelector(Target $target)
