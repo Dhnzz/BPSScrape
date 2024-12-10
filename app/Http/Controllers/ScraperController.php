@@ -33,116 +33,140 @@ class ScraperController extends Controller
             // Mengambil selector dari tabel selectors yang sesuai dengan target_id
             $selector = Selector::where('target_id', $target->id)->first();
 
-            // Menggunakan selector secara dinamis untuk melakukan scraping
-            $headlines = $crawler->filter($selector->headline)->each(function ($node) use ($key, $target, $selector) {
-                $client = new Client();
+            $allHeadlines = []; // Variabel untuk menyimpan semua data headlines
 
-                // Menyimpan data headline dan link
-                $headline = [
-                    'keyword' => Str::replace($target->connector, ' ', $key),
-                    'target_id' => $target->id,
-                    'headline' => $node->text(),
-                    'link' => $node->attr('href'),
-                ];
+            $pageCounter = 0;
 
-                // Navigasi ke artikel untuk mengambil detail menggunakan link yang diambil
-                $link = $node->link();
-                $crawler = $client->click($link);
+            // Loop untuk scraping halaman berikutnya
+            while ($pageCounter < 2) {
+                // Menggunakan selector secara dinamis untuk melakukan scraping
+                $headlines = $crawler->filter($selector->headline)->each(function ($node) use ($key, $target, $selector) {
+                    $client = new Client();
 
-                // Mengambil tanggal publikasi menggunakan selector date
-                $date = $crawler->filter($selector->date)->each(function ($node) {
-                    return $node->text();
-                });
-                if (count($date) > 1) {
-                    $headline['date'] = $date[0];
-                } else {
-                    $headline['date'] = str_replace(['- '], '', implode(' ', $date));
-                }
+                    // Menyimpan data headline dan link
+                    $headline = [
+                        'keyword' => Str::replace($target->connector, ' ', $key),
+                        'target_id' => $target->id,
+                        'headline' => $node->text(),
+                        'link' => $node->attr('href'),
+                    ];
 
-                $content = '';
-                $content .= implode(
-                    ' ',
-                    $crawler->filter($selector->content)->each(function ($node) {
+                    // Navigasi ke artikel untuk mengambil detail menggunakan link yang diambil
+                    $link = $node->link();
+                    $crawler = $client->click($link);
+
+                    // Mengambil tanggal publikasi menggunakan selector date
+                    $date = $crawler->filter($selector->date)->each(function ($node) {
                         return $node->text();
-                    }),
-                );
-
-                while (true) {
-                    $nextPageLink = $crawler->filter('a:contains("Selanjutnya")');
-
-                    if ($nextPageLink->count() == 0) {
-                        break;
-                    }
-
-                    try {
-                        $nextPageLink = $nextPageLink->link();
-                        $crawler = $client->click($nextPageLink);
-
-                        $content .= implode(
-                            ' ',
-                            $crawler->filter($selector->content)->each(function ($node) {
-                                return $node->text();
-                            }),
-                        );
-                    } catch (\Exception $e) {
-                        //throw $th;
-                        break;
-                    }
-                }
-                $headline['content'] = $content;
-
-                // Mengambil gambar cover menggunakan selector cover
-                $cover = $crawler->filter($selector->cover)->each(function ($node) {
-                    return $node->attr('data-src');
-                });
-                if ($cover[0] == null) {
-                    $cover = $crawler->filter($selector->cover)->each(function ($node) {
-                        return $node->attr('src');
                     });
-                    $headline['cover'] = !empty($cover) ? $cover[0] : null;
-                } else {
-                    $headline['cover'] = !empty($cover) ? $cover[0] : null;
-                }
+                    if (count($date) > 1) {
+                        $headline['date'] = $date[0];
+                    } else {
+                        $headline['date'] = str_replace(['- '], '', implode(' ', $date));
+                    }
 
-                // Mengambil tags artikel menggunakan selector tags
-                $tags = $crawler->filter($selector->tags)->each(function ($node) {
-                    return $node->text();
+                    $content = '';
+                    $content .= implode(
+                        ' ',
+                        $crawler->filter($selector->content)->each(function ($node) {
+                            return $node->text();
+                        }),
+                    );
+
+                    while (true) {
+                        $nextPageLink = $crawler->filter('a:contains("Selanjutnya")');
+
+                        if ($nextPageLink->count() == 0) {
+                            break;
+                        }
+
+                        try {
+                            $nextPageLink = $nextPageLink->link();
+                            $crawler = $client->click($nextPageLink);
+
+                            $content .= implode(
+                                ' ',
+                                $crawler->filter($selector->content)->each(function ($node) {
+                                    return $node->text();
+                                }),
+                            );
+                        } catch (\Exception $e) {
+                            //throw $th;
+                            break;
+                        }
+                    }
+                    $headline['content'] = $content;
+
+                    // Mengambil gambar cover menggunakan selector cover
+                    $cover = $crawler->filter($selector->cover)->each(function ($node) {
+                        return $node->attr('data-src');
+                    });
+                    if ($cover[0] == null) {
+                        $cover = $crawler->filter($selector->cover)->each(function ($node) {
+                            return $node->attr('src');
+                        });
+                        $headline['cover'] = !empty($cover) ? $cover[0] : null;
+                    } else {
+                        $headline['cover'] = !empty($cover) ? $cover[0] : null;
+                    }
+
+                    // Mengambil tags artikel menggunakan selector tags
+                    $tags = $crawler->filter($selector->tags)->each(function ($node) {
+                        return $node->text();
+                    });
+                    $headline['tags'] = json_encode($tags);
+                    return $headline;
                 });
-                $headline['tags'] = json_encode($tags);
 
+                $allHeadlines = array_merge($allHeadlines, $headlines);
+
+                // Cari link ke halaman berikutnya
+                $nextPageLink = $crawler->filter('a:contains("Next")');
+
+                if ($nextPageLink->count() > 0) {
+                    try {
+                        // Arahkan ke halaman berikutnya
+                        $crawler = $client->click($nextPageLink->link());
+                        $pageCounter++; // Tambah jumlah halaman yang sudah diproses
+                    } catch (\Exception $e) {
+                        break; // Jika ada error, keluar dari loop
+                    }
+                } else {
+                    break; // Jika tidak ada link "Next", hentikan loop
+                }
+            }
+            foreach ($allHeadlines as $item) {
                 // Simpan ke database (periksa jika sudah ada, maka update; jika tidak, buat baru)
                 $existingResult = Result::where('target_id', $target->id)
-                    ->where('keyword', $headline['keyword'])
-                    ->where('headline', $headline['headline'])
+                    ->where('keyword', $item['keyword'])
+                    ->where('headline', $item['headline'])
                     ->first();
 
                 if ($existingResult) {
                     // Jika data sudah ada, update berita terbaru
                     $existingResult->update([
-                        'keyword' => $headline['keyword'],
-                        'headline' => $headline['headline'],
-                        'date' => $headline['date'],
-                        'content' => $headline['content'],
-                        'cover' => $headline['cover'],
-                        'tags' => $headline['tags'],
-                        'link' => $headline['link'],
+                        'keyword' => $item['keyword'],
+                        'headline' => $item['headline'],
+                        'date' => $item['date'],
+                        'content' => $item['content'],
+                        'cover' => $item['cover'],
+                        'tags' => $item['tags'],
+                        'link' => $item['link'],
                     ]);
                 } else {
                     // Jika data tidak ada, buat entri baru
                     Result::create([
                         'target_id' => $target->id,
-                        'keyword' => $headline['keyword'],
-                        'headline' => $headline['headline'],
-                        'date' => $headline['date'],
-                        'link' => $headline['link'],
-                        'content' => $headline['content'],
-                        'cover' => $headline['cover'],
-                        'tags' => $headline['tags'],
+                        'keyword' => $item['keyword'],
+                        'headline' => $item['headline'],
+                        'date' => $item['date'],
+                        'link' => $item['link'],
+                        'content' => $item['content'],
+                        'cover' => $item['cover'],
+                        'tags' => $item['tags'],
                     ]);
                 }
-
-                // dump($headline);
-            });
+            }
         }
 
         return redirect()
@@ -174,11 +198,13 @@ class ScraperController extends Controller
             // Mengambil selector dari tabel selectors yang sesuai dengan target_id
             $selector = Selector::where('target_id', $target->id)->first();
 
-            // Counter untuk membatasi jumlah halaman
+            $allHeadlines = []; // Variabel untuk menyimpan semua data headlines
+
             $pageCounter = 0;
 
-            // Loop untuk scraping halaman-halaman berikutnya, terbatas hanya 2 halaman
-            while ($pageCounter < 2) {
+            // Loop untuk scraping halaman berikutnya
+            while ($pageCounter < 3) {
+                // Sesuaikan batas halaman
                 // Mengambil headlines di halaman saat ini
                 $headlines = $crawler->filter($selector->headline)->each(function ($node) use ($key, $target, $selector) {
                     $client = new Client();
@@ -191,78 +217,64 @@ class ScraperController extends Controller
                         'link' => $node->attr('href'),
                     ];
 
-                    // Navigasi ke artikel untuk mengambil detail menggunakan link yang diambil
+                    // Navigasi ke artikel untuk mengambil detail
                     $link = $node->link();
                     $crawler = $client->click($link);
 
-                    // Mengambil tanggal publikasi menggunakan selector date
+                    // Mengambil tanggal
                     $date = $crawler->filter($selector->date)->each(function ($node) {
                         return $node->text();
                     });
                     $headline['date'] = count($date) > 1 ? $date[0] : str_replace(['- '], '', implode(' ', $date));
 
-                    // Mengambil isi artikel menggunakan selector content
-                    $content = '';
-                    $content .= implode(
+                    // Mengambil isi artikel
+                    $content = implode(
                         ' ',
                         $crawler->filter($selector->content)->each(function ($node) {
                             return $node->text();
                         }),
                     );
-
-                    // Menangani jika artikel memiliki halaman lanjutan
-                    while (true) {
-                        $nextPageLink = $crawler->filter('a:contains("Selanjutnya")');
-
-                        if ($nextPageLink->count() == 0) {
-                            break;
-                        }
-
-                        try {
-                            $nextPageLink = $nextPageLink->link();
-                            $crawler = $client->click($nextPageLink);
-
-                            $content .= implode(
-                                ' ',
-                                $crawler->filter($selector->content)->each(function ($node) {
-                                    return $node->text();
-                                }),
-                            );
-                        } catch (\Exception $e) {
-                            break;
-                        }
-                    }
                     $headline['content'] = $content;
 
-                    // Mengambil gambar cover menggunakan selector cover
+                    // Mengambil cover
                     $cover = $crawler->filter($selector->cover)->each(function ($node) {
                         return $node->attr('data-src') ?: $node->attr('src');
                     });
                     $headline['cover'] = !empty($cover) ? $cover[0] : null;
 
-                    // Mengambil tags artikel menggunakan selector tags
+                    // Mengambil tags
                     $tags = $crawler->filter($selector->tags)->each(function ($node) {
                         return $node->text();
                     });
                     $headline['tags'] = json_encode($tags);
 
+                    return $headline;
                 });
 
-                // Cek apakah ada halaman berikutnya
+                // Tambahkan hasil dari halaman ini ke variabel global
+                $allHeadlines = array_merge($allHeadlines, $headlines);
+
+                // Cari link ke halaman berikutnya
                 $nextPageLink = $crawler->filter('a:contains("Next")');
 
                 if ($nextPageLink->count() > 0) {
-                    // Jika ada, navigasi ke halaman berikutnya
-                    $nextPageLink = $nextPageLink->link();
-                    $crawler = $client->click($nextPageLink);
-                    $pageCounter++; // Menambah counter halaman
+                    try {
+                        // Arahkan ke halaman berikutnya
+                        $crawler = $client->click($nextPageLink->link());
+                        $pageCounter++; // Tambah jumlah halaman yang sudah diproses
+                    } catch (\Exception $e) {
+                        break; // Jika ada error, keluar dari loop
+                    }
                 } else {
-                    // Jika tidak ada halaman berikutnya, keluar dari loop
-                    break;
+                    break; // Jika tidak ada link "Next", hentikan loop
                 }
             }
+
+            // Debug jumlah total data
+            foreach ($allHeadlines as $item) {
+                dump($item); // Total data dari semua halaman
+            }
+            dd('done');
         }
-        dd(count($headlines));
-        dd('done');
     }
 }
