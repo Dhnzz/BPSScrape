@@ -21,7 +21,7 @@ class CreateResultsTable extends Migration
             $table->string('date')->nullable();
             $table->string('link')->nullable();
             $table->text('content')->nullable();
-            $table->string('cover')->nullable();
+            $table->text('cover')->nullable();
             $table->json('tags')->nullable();
             $table->timestamps();
         });

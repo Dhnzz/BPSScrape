@@ -203,7 +203,7 @@ class ScraperController extends Controller
             $pageCounter = 0;
 
             // Loop untuk scraping halaman berikutnya
-            while ($pageCounter < 3) {
+            while ($pageCounter < 2) {
                 // Sesuaikan batas halaman
                 // Mengambil headlines di halaman saat ini
                 $headlines = $crawler->filter($selector->headline)->each(function ($node) use ($key, $target, $selector) {
